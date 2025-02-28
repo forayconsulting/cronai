@@ -1,6 +1,7 @@
 #!/bin/bash
 # CRONAI - Example Configuration File
 # Make a copy of this file named config.sh and adjust the values for your environment
+# This configuration is designed for integrating with MCP Servers via Goose CLI
 
 # Base directory for the application
 # This should be the directory where the CRONAI app is installed
@@ -23,6 +24,21 @@ FLASK_PORT="5001"     # The port the web interface will run on
 # Options: "*/10 * * * *" (every 10 min), "0 * * * *" (hourly), etc.
 DEFAULT_CRON_SCHEDULE="0 6 * * *" # daily at 6 AM
 
-# Command line tool configuration
-# Set the path to your CLI tool if it's not in PATH
-GOOSE_PATH=""  # Leave empty if in PATH, otherwise specify full path
+# MCP Server Connection Configuration
+# -----------------------------------
+
+# Goose CLI path for connecting to MCP Servers
+# Leave empty if Goose is in your PATH, otherwise specify the full path
+GOOSE_PATH=""  
+
+# MCP Server configuration settings
+# Uncomment and set these values if you need specific MCP Server configurations
+# MCP_SERVER_URL=""
+# MCP_API_KEY=""
+# MCP_DEFAULT_MODEL=""
+
+# AI Session Parameters
+# --------------------
+# AI_TIMEOUT="300"      # Maximum time (in seconds) for AI sessions
+# AI_OUTPUT_FORMAT="text" # Output format (text, json, markdown)
+# AI_DEFAULT_CONTEXT="You are an assistant helping with daily tasks."
