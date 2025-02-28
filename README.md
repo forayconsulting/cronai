@@ -1,8 +1,19 @@
 # CRONAI
 
-CRONAI is a tool for scheduling and managing AI assistance sessions through cron. It provides a web interface for creating, managing, and executing AI commands on a schedule.
+CRONAI is a powerful tool designed specifically for scheduling and managing AI assistance sessions through cron jobs. It combines the scheduling capabilities of cron with the power of MCP Servers via the Goose CLI tool, enabling automated AI assistance at scheduled intervals.
 
-![CRONAI Interface](https://via.placeholder.com/800x450.png?text=CRONAI+Interface)
+![CRONAI Interface](CRONAI_UI.png)
+
+## The Power of MCP Servers + Goose Integration
+
+CRONAI was built with a singular focus: to harness the full potential of MCP Servers through scheduled automation. By leveraging the Goose CLI tool, CRONAI creates a bridge between traditional scheduling systems and advanced AI capabilities.
+
+Key benefits of the MCP Servers + Goose integration:
+
+- **Automated AI Workflows**: Schedule complex AI assistance tasks to run automatically
+- **Server-Side Processing**: Leverage MCP Server resources for intensive AI operations
+- **Consistent Assistance**: Receive regular AI-generated reports, analyses, and updates
+- **Hands-Off Operation**: Set up once and let the system work for you
 
 ## Features
 
@@ -11,6 +22,7 @@ CRONAI is a tool for scheduling and managing AI assistance sessions through cron
 - **Real-time Output**: See the results of your commands in real-time
 - **Configuration Management**: Create, edit, and manage multiple configuration profiles
 - **Flexible Scheduling**: Options from "Manual Only" to daily, weekly, or monthly execution
+- **MCP Server Integration**: Seamlessly works with MCP Servers via the Goose CLI
 
 ## Requirements
 
@@ -18,7 +30,7 @@ CRONAI is a tool for scheduling and managing AI assistance sessions through cron
 - Flask
 - Modern web browser
 - Unix-like operating system with crontab support
-- [Goose](https://github.com/yourusername/goose) CLI tool (for AI session management)
+- [Goose](https://github.com/yourusername/goose) CLI tool for MCP Server interaction
 
 ## Installation
 
@@ -52,36 +64,47 @@ CRONAI is a tool for scheduling and managing AI assistance sessions through cron
 
 6. Access the web interface at `http://localhost:5001`
 
-## Usage
+## Usage with MCP Servers
 
-### Creating a Configuration
+CRONAI is designed to work seamlessly with MCP Servers through the Goose CLI tool. Here's how to leverage this powerful integration:
+
+### Creating AI Session Configurations
 
 1. From the CRONAI web interface, enter a name for your new configuration and click "Create"
 2. Set your desired schedule (e.g., "Every day", "Manual Only")
-3. Add the commands you want to execute in the AI session
+3. Add the Goose commands you want to execute in the AI session
 4. Click "Save" to store your configuration
 
-### Running a Session
+### Example MCP Server Commands
+
+```
+Generate a weekly report on project progress
+Analyze customer feedback from the last 24 hours
+Monitor system performance and alert on anomalies
+Create a daily summary of team activities
+```
+
+### Running AI Sessions
 
 1. Select a configuration from the left sidebar
-2. Click the "Run" button to execute the commands immediately
-3. View the output in real-time in the output panel
+2. Click the "Run" button to execute the commands immediately on your MCP Server
+3. View the AI output in real-time in the output panel
 4. Use the "Stop" button to terminate a running session
 
-### Scheduling Sessions
+### Scheduling Ongoing AI Support
 
 - For configurations with a schedule other than "Manual Only", CRONAI will update your crontab automatically
-- Schedules are managed by the system's cron daemon
-- To view your current cron jobs, use `crontab -l` in a terminal
+- The system will connect to your MCP Server via Goose at the specified intervals
+- AI-generated content will be processed according to your configuration
 
 ## Customizing
 
-### Custom Command Templates
+### Custom Command Templates for MCP Servers
 
-Create reusable command templates by adding files to the `templates/configs/` directory:
+Create reusable AI command templates by adding files to the `templates/configs/` directory:
 
 ```bash
-# Example template for data analysis tasks
+# Example template for AI data analysis tasks
 echo "Analyzing dataset..."
 process_data --input $DATA_FILE --output $RESULTS_DIR
 summarize_findings $RESULTS_DIR
@@ -89,7 +112,7 @@ summarize_findings $RESULTS_DIR
 
 ### Environment Variables
 
-You can use environment variables in your commands. These are processed at runtime:
+You can use environment variables in your commands to make them more flexible:
 
 ```bash
 analyze_text "$MY_TEXT_VAR"
@@ -101,7 +124,7 @@ analyze_text "$MY_TEXT_VAR"
 cronai/
 ├── app.py                 # Main Flask application
 ├── config.sh              # Global configuration
-├── session_scheduler.sh   # Script to execute commands
+├── session_scheduler.sh   # Script to execute commands on MCP Servers
 ├── update_cron.sh         # Script to update crontab
 ├── configs/               # User configurations
 │   ├── App Dev.sh         # Example configuration
@@ -120,11 +143,12 @@ cronai/
 2. Verify permissions on the script files: `chmod +x *.sh`
 3. Check the cron log: `grep CRON /var/log/syslog`
 
-### Command Execution Issues
+### MCP Server Connection Issues
 
 1. Verify that the `goose` CLI tool is installed and in your PATH
-2. Check the syntax of your commands
-3. Run the session manually to see detailed error output
+2. Check your MCP Server connectivity
+3. Ensure your authentication credentials are valid
+4. Run the session manually to see detailed error output
 
 ## Contributing
 
@@ -144,4 +168,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Built with Flask web framework
 - Uses crontab for job scheduling
-- Inspired by the need for automated AI assistance
+- Powered by MCP Servers via Goose CLI
+- Inspired by the need for automated AI assistance in development workflows
