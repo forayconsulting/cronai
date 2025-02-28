@@ -2,7 +2,7 @@
 
 CRONAI is a tool for scheduling and managing AI assistance sessions through cron. It provides a web interface for creating, managing, and executing AI commands on a schedule.
 
-<!-- Image will be added once the interface is finalized -->
+![CRONAI Interface] (./CRONAI_UI.png)
 
 ## Features
 
