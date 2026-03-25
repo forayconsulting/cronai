@@ -1,24 +1,24 @@
-# I Built a Cron Job for AI Agents 13 Months Before the Industry Did
+# Scheduled AI Agents, the Dark Forest, and Why I Didn't Build a Product
 
-On February 28, 2025, I spent about 14 minutes building a tool called CRONAI. Flask web app, sidebar of named configs, cron schedule picker, shell script that piped natural-language commands into the Goose CLI to run AI agent sessions on a recurring schedule via MCP Servers. Twenty-one commits in one sitting.
+Let me take you back thirteen months, to before Cursor Automations, before Codex Automations, before Claude Code's `/loop`, before any major AI tool had the concept of a scheduled agent. Back to February 2025, when the fanciest thing most people were doing with AI was copying and pasting ChatGPT output into their code editors.
 
-A week later, I rebuilt it from scratch.
+I had a different problem. I did not want to sit with an AI agent. I wanted to hand it a list of things to do, set a timer, and walk away. Check for security vulnerabilities in my dependencies every morning. Summarize yesterday's commits before I sit down with coffee. Triage issues overnight. The kind of stuff that does not need me watching.
+
+The problem was that nothing could do this. Every AI tool in February 2025 was interactive. You prompt, it responds, you iterate. The agent could not outlive the conversation.
+
+So I built it myself. Twice.
 
 ## CRONAI and Maistro
 
-CRONAI was the first pass. A Python/Flask app with a dropdown for cron schedules and a text area for commands. It worked but it was rough. The commands were just strings in a bash array. No per-prompt model selection. No MCP server configuration per step. No real-time streaming.
+The first version was CRONAI, built on February 28, 2025. A Flask web app I threw together in about 14 minutes. You wrote a list of plain-English instructions, picked a cron schedule from a dropdown, and it installed a crontab entry that piped your commands into a Goose session connected to MCP Servers. Goose was the only agent CLI that supported MCP at the time, and it was barely a month old itself. MCP was three months old. The whole stack was held together with duct tape and optimism.
 
-Seven days later, on March 7, 2025, I started building Maistro. Same core concept but rebuilt as a proper Node.js application with WebSocket streaming, a real REST API with Swagger docs, per-prompt MCP server selection, OpenRouter integration for model switching mid-sequence, the ability to trigger one configuration from another (chaining agent workflows), folder organization for configs, and Docker support with multi-architecture builds. A contributor (Aaron Bockelie) jumped in within a week and added Docker improvements and API documentation.
+It worked, but it was limited. Commands were just strings in a bash array. One model, one set of tools, no streaming, no visibility into what the agent was actually doing.
 
-The evolution from CRONAI to Maistro tells you something about how fast I was iterating. In seven days I went from "pipe commands into Goose on a cron" to "orchestrate multi-model, multi-MCP-server agent workflows on a schedule with WebSocket streaming and a REST API." The underlying idea never changed. Write prompts, pick your tools, set a schedule, let the agent work.
+Seven days later I started over and built Maistro. Same idea, real architecture. Node.js with WebSocket streaming so I could watch the agent work in real time. Per-prompt MCP server selection, so each step in a workflow could use different tools. OpenRouter integration for switching models mid-sequence, because some prompts need a reasoning model and some just need speed. Configurations could trigger other configurations, chaining agent workflows together. REST API with Swagger docs. Docker with multi-arch builds. Aaron Bockelie jumped in within a week and contributed Docker improvements and API documentation.
 
-That was March 2025. The last commit on Maistro was April 2, 2025. I used both tools and moved on to building other things.
+The underlying idea never changed across either tool. Write prompts, pick your tools, set a schedule, let the agent work without you.
 
-## What Existed in February 2025
-
-The landscape was thin. Aider had been around since mid-2023 as the main open-source CLI coding tool. Goose (Block/Square) had launched one month earlier in January 2025 with MCP support, which is what I built both tools around. Claude Code launched that same month as a research preview. Cursor was an IDE with no agent mode, no background agents, no CLI. MCP was about three months old with a handful of reference servers. Copilot was autocomplete. OpenAI Codex (the agent) did not exist.
-
-Karpathy coined "vibe coding" that same month. The conversation was still about whether AI could write code at all, not about whether it could run autonomously on a schedule.
+I used both tools through the spring and moved on to building other things: MCP servers for Zoom transcripts, Oracle NetSuite, Google Slides, Slack. A Cloudflare MCP deployment pattern. A Gemini CLI skill. An AI sandbox prototype. Fifty-seven repos over 13 months, most of them tools I built because I needed them and they did not exist yet. CRONAI and Maistro were just two of those.
 
 ## What the Industry Shipped After
 
@@ -26,11 +26,11 @@ Here is a compressed timeline of the 13 months between my utilities and today:
 
 **Apr 2025**: OpenAI launches Codex CLI. Interactive only.
 
-**May 2025**: Claude Code reaches GA. OpenAI launches cloud Codex. Cursor 0.50 ships Background Agents. All on-demand.
+**May 2025**: Claude Code reaches GA. OpenAI launches cloud Codex. Cursor 0.50 ships Background Agents. All on-demand, not scheduled.
 
 **Jun 2025**: Google launches Gemini CLI. Cursor 1.0.
 
-**Sep 2025**: GitHub Copilot CLI in public preview. The terminal is a battleground, but everything still requires a human to start it.
+**Sep 2025**: GitHub Copilot CLI in public preview. The terminal is a battleground, but everything still requires a human to kick it off.
 
 **Dec 2025**: Claude Code ships async background subagents. MCP gets donated to the Linux Foundation's Agentic AI Foundation.
 
@@ -42,7 +42,7 @@ Here is a compressed timeline of the 13 months between my utilities and today:
 
 **Mar 25, 2026** (today): A product called **CronBox** launches on Product Hunt. Tagline: "Cron for the AI age." The creator notes Claude Code's scheduling is "pretty restrictive" and built something more capable.
 
-The features Maistro had in March 2025, per-prompt model selection, per-prompt MCP server configuration, chained workflows, scheduled execution, are now shipping as headline features across Codex, Cursor, and Claude Code in Q1 2026.
+The features Maistro had in March 2025 (per-prompt model selection, per-prompt MCP server configuration, chained workflows, scheduled execution) are now shipping as headline features across Codex, Cursor, and Claude Code in Q1 2026.
 
 ## The Possibility Space
 
