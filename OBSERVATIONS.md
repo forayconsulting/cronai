@@ -1,73 +1,85 @@
-# I Built a Cron Job for AI Agents 13 Months Before Everyone Else Did
+# I Built a Cron Job for AI Agents 13 Months Before the Industry Did
 
-On February 28, 2025, I spent about 14 minutes building a tool called CRONAI. It was a Friday morning. I wrote a Flask web app with a sidebar of named configurations, a cron schedule picker, and a shell script that piped natural-language commands into the Goose CLI to run AI agent sessions on a recurring schedule via MCP Servers. I pushed 21 commits, closed my laptop, and moved on.
+On February 28, 2025, I spent about 14 minutes building a tool called CRONAI. Flask web app, sidebar of named configs, cron schedule picker, shell script that piped natural-language commands into the Goose CLI to run AI agent sessions on a recurring schedule via MCP Servers. Twenty-one commits in one sitting.
 
-I genuinely forgot about it until this week.
+A week later, I rebuilt it from scratch.
 
-## What I Actually Built
+## CRONAI and Maistro
 
-The idea was simple. I wanted to write a list of instructions in plain English, attach a cron schedule, and have an AI agent wake up and do the work without me. The example config I shipped had commands like "Generate a daily summary of yesterday's activities" and "Check for security vulnerabilities in our dependencies." You'd pick a schedule from a dropdown (every 10 minutes, hourly, daily, weekly), hit save, and the system would install a crontab entry pointing at a bash script that piped your commands into a Goose session connected to MCP Servers.
+CRONAI was the first pass. A Python/Flask app with a dropdown for cron schedules and a text area for commands. It worked but it was rough. The commands were just strings in a bash array. No per-prompt model selection. No MCP server configuration per step. No real-time streaming.
 
-That was the whole thing. A web UI for managing scheduled AI agent jobs.
+Seven days later, on March 7, 2025, I started building Maistro. Same core concept but rebuilt as a proper Node.js application with WebSocket streaming, a real REST API with Swagger docs, per-prompt MCP server selection, OpenRouter integration for model switching mid-sequence, the ability to trigger one configuration from another (chaining agent workflows), folder organization for configs, and Docker support with multi-architecture builds. A contributor (Aaron Bockelie) jumped in within a week and added Docker improvements and API documentation.
 
-## What Existed When I Built It
+The evolution from CRONAI to Maistro tells you something about how fast I was iterating. In seven days I went from "pipe commands into Goose on a cron" to "orchestrate multi-model, multi-MCP-server agent workflows on a schedule with WebSocket streaming and a REST API." The underlying idea never changed. Write prompts, pick your tools, set a schedule, let the agent work.
 
-February 2025 was a weird moment for AI tooling. Here's what the landscape looked like:
+That was March 2025. The last commit on Maistro was April 2, 2025. I used both tools and moved on to building other things.
 
-- **Aider** was the main open-source CLI coding tool, focused on pair programming with git integration. It had been around since mid-2023.
-- **Goose** (Block/Square) had just launched in January 2025, one month earlier. It was new, open source, and supported MCP Servers for extensibility. This is what I built CRONAI around.
-- **Claude Code** launched that same month (February 2025) as a research preview. It was brand new and limited.
-- **Cursor** existed as an IDE, but had no agent mode, no background agents, no CLI, nothing autonomous.
-- **MCP (Model Context Protocol)** was about three months old. Anthropic had open-sourced it in November 2024. Adoption was thin. A handful of reference servers existed for GitHub, Slack, Postgres.
-- **Copilot** was autocomplete in your editor. No agent mode. No CLI.
-- **OpenAI Codex** (the agent, not the old code completion model) did not exist yet.
+## What Existed in February 2025
 
-Andrej Karpathy coined "vibe coding" that same month. The conversation was about whether AI could write code at all, not about whether it could run autonomously on a schedule. Nobody was talking about scheduled AI agents as a product category.
+The landscape was thin. Aider had been around since mid-2023 as the main open-source CLI coding tool. Goose (Block/Square) had launched one month earlier in January 2025 with MCP support, which is what I built both tools around. Claude Code launched that same month as a research preview. Cursor was an IDE with no agent mode, no background agents, no CLI. MCP was about three months old with a handful of reference servers. Copilot was autocomplete. OpenAI Codex (the agent) did not exist.
 
-The tools that existed were interactive. You sat with them. You prompted, they responded, you iterated. The idea of writing instructions, setting a timer, and walking away was not part of the conversation.
+Karpathy coined "vibe coding" that same month. The conversation was still about whether AI could write code at all, not about whether it could run autonomously on a schedule.
 
-## What Happened After
+## What the Industry Shipped After
 
-Here is a timeline of what the industry shipped in the 13 months between my prototype and today:
+Here is a compressed timeline of the 13 months between my utilities and today:
 
-**April 2025**: OpenAI launches Codex CLI, an open-source terminal coding agent. Interactive only.
+**Apr 2025**: OpenAI launches Codex CLI. Interactive only.
 
-**May 2025**: Claude Code reaches general availability alongside Claude 4. OpenAI launches cloud-based Codex as a research preview. Cursor ships version 0.50 with Background Agents, allowing parallel task execution. All of these are on-demand, not scheduled.
+**May 2025**: Claude Code reaches GA. OpenAI launches cloud Codex. Cursor 0.50 ships Background Agents. All on-demand.
 
-**June 2025**: Google launches Gemini CLI. Another terminal agent, another interactive tool.
+**Jun 2025**: Google launches Gemini CLI. Cursor 1.0.
 
-**September 2025**: GitHub Copilot CLI launches in public preview. Amazon Q Developer CLI has been around since March. The terminal is now an AI battleground, but everything still requires a human to start it.
+**Sep 2025**: GitHub Copilot CLI in public preview. The terminal is a battleground, but everything still requires a human to start it.
 
-**October 2025**: OpenAI ships Codex GA with Slack integration. Claude Code launches on the web.
+**Dec 2025**: Claude Code ships async background subagents. MCP gets donated to the Linux Foundation's Agentic AI Foundation.
 
-**December 2025**: Claude Code ships async background subagents (v2.0.60). Agents can now be spawned and left to run while you do other things. This is getting closer.
+**Feb 2026**: OpenAI ships the Codex desktop app with **Automations**: instructions plus skills, running on a schedule. Results land in a review queue. Engineers use them for daily issue triage, summarizing CI failures, generating release briefs. GitHub Copilot CLI reaches GA.
 
-**February 2026**: GitHub Copilot CLI reaches general availability. OpenAI ships the Codex desktop app with a feature called **Automations**: instructions plus optional skills, running on a schedule you define. When an Automation finishes, results land in a review queue. OpenAI engineers use them for daily issue triage, summarizing CI failures, and generating release briefs.
+**Mar 5, 2026**: Cursor launches **Automations**. Trigger-based AI agents that fire on cron schedules, GitHub PRs, Slack messages, Linear issues, PagerDuty alerts, webhooks.
 
-**March 5, 2026**: Cursor launches **Automations**. Trigger-based AI agents that fire on GitHub PRs, Slack messages, Linear issues, PagerDuty alerts, cron schedules, and webhooks. Each agent spins up in an isolated cloud sandbox, follows instructions, executes the task, and verifies its own output.
+**Mar 2026**: Anthropic ships `/loop` for Claude Code (v2.1.71). Cron-style scheduling that turns Claude Code into an autonomous background worker. Standard cron expressions. Up to 50 scheduled tasks per session. One headline: "Claude Code Gets Cron Scheduling to Run as a Background Worker."
 
-**March 2026**: Anthropic ships the `/loop` command for Claude Code (v2.1.71). Cron-style scheduling that turns Claude Code into an autonomous background worker. Standard cron expressions. Local timezone. Up to 50 scheduled tasks per session. The headline from one outlet: "Claude Code Gets Cron Scheduling to Run as a Background Worker."
+**Mar 25, 2026** (today): A product called **CronBox** launches on Product Hunt. Tagline: "Cron for the AI age." The creator notes Claude Code's scheduling is "pretty restrictive" and built something more capable.
 
-**March 25, 2026** (today): A product called **CronBox** launches on Product Hunt. Its tagline is "Cron for the AI age." Schedule AI agent jobs in the cloud. Each agent gets an ephemeral sandbox. The creator notes that Claude Code's scheduling is "pretty restrictive" and built CronBox to do more. The name is almost identical to mine.
+The features Maistro had in March 2025, per-prompt model selection, per-prompt MCP server configuration, chained workflows, scheduled execution, are now shipping as headline features across Codex, Cursor, and Claude Code in Q1 2026.
 
-## The Possibility Space I Was Working In
+## The Possibility Space
 
-This is the part I find interesting. When I built CRONAI, the components I needed barely existed. Goose was one month old. MCP was three months old. Claude Code was days old. There was no ecosystem of scheduled AI agent products because there was barely an ecosystem of AI agent CLIs.
+When I built these tools, the components barely existed. Goose was one month old. MCP was three months old. Claude Code was days old. There was no ecosystem of scheduled AI agent products because there was barely an ecosystem of AI agent CLIs.
 
-I was working with the only tool that could plausibly do what I wanted (Goose with MCP), using the oldest job scheduler in Unix (cron), glued together with a Flask app I could build in minutes. The ceiling of what was possible was low. But the shape of the idea was right.
+I was working with the only tool that could plausibly do what I wanted (Goose with MCP), using the oldest job scheduler in Unix (cron), held together with Flask and then Node.js. The ceiling of what was possible was low. But the shape of the idea was right.
 
-Now there are at least 15 AI CLI coding tools. The autonomous AI agent market is estimated at $8.5 billion in 2026. Gartner says 33% of enterprise software will include agentic AI by 2028. MCP has gone from a handful of reference servers to an industry standard with an enterprise readiness roadmap. Devin, the autonomous coding agent, is valued at $4 billion. Goldman Sachs is running AI agents alongside 12,000 human developers.
+Now there are 15+ AI CLI coding tools. MCP has gone from a handful of reference servers to an industry standard donated to the Linux Foundation, with 8 million server downloads and 5,800+ servers. The autonomous AI agent market is estimated at $8.5 billion. And the specific feature that multiple billion-dollar companies chose to ship in Q1 2026 is: put an AI agent on a cron schedule and let it work.
 
-And the specific feature that multiple billion-dollar companies shipped in Q1 2026, the thing that made headlines, is: put an AI agent on a cron schedule and let it work.
+## Why I Didn't Try to Sell It
 
-## What I Think This Means
+I can hear someone reading this and thinking: "You should have productized that. You had a 13-month head start."
 
-I am not claiming I invented anything. Cron has existed since 1975. AI agents existed before February 2025. Putting them together is not a breakthrough. It is a straightforward combination of two obvious things.
+No. What I would have had, at absolute best, is a small startup getting one-shotted by a minor Anthropic feature release right now. Claude Code's `/loop` shipped as a point release. Not a product launch, not a keynote announcement. A point release. Cursor Automations? A beta toggle. These companies added "scheduled AI agents" the same way they add any feature: as a line item in a changelog. You cannot build a moat around a cron job.
 
-But that is sort of the point. The idea was obvious to me 13 months before it was obvious to the companies building these tools. Not because I am smarter, but because I was a user with a specific need and no patience. I did not want to sit with an AI agent. I wanted to hand it a list of things to do and come back later. The simplest version of that is a cron job.
+Look at what happened to ClawdBot. Peter Steinberger built an open-source personal AI agent that went viral. 145,000 GitHub stars. Coverage in TechCrunch, CNBC, MacStories. Consulting businesses sprung up around it overnight. Then Anthropic sent a trademark complaint and he had to rename it. Twice. ClawdBot became Moltbot became OpenClaw, all within a few weeks. That project is still alive and useful, but the trajectory shows the problem clearly. When you build in the gravity well of a platform owner, you are one decision away from disruption, whether by feature parity or by legal letter.
 
-The gap between my prototype and what shipped this month is not conceptual. It is operational. The industry added sandboxing, cloud execution, credential management, review queues, and a lot of polish. The core loop is the same: define instructions, set a schedule, let the agent run, review the results.
+CronBox launched on Product Hunt today. The founder noted that Claude Code's scheduling is "pretty restrictive." That may be true right now. It will not be true for long. Every limitation CronBox routes around is a feature request on Anthropic's backlog. The product thesis is a countdown timer.
 
-I think there is a pattern here that goes beyond this specific tool. When you are a practitioner who uses AI tools every day, you bump into the walls of what is possible before the people building the tools do. You build ugly workarounds. Those workarounds sometimes turn out to be the next feature that ships in the product you were working around.
+Short-term thinking is product-based. Long-term thinking is capability-based.
 
-The 14 minutes I spent on CRONAI were not wasted. They were just early.
+What I actually did with those 13 months was keep using these tools. I built MCP servers before most people knew what MCP was. I was writing Zoom transcript MCPs, Oracle NetSuite MCPs, Google Slides MCPs, Cloudflare MCP deployment patterns, Gemini CLI skills, AI sandbox prototypes, and agent streaming implementations while the industry was still figuring out what "agentic" meant. CRONAI and Maistro were utilities in a larger practice of staying on the bleeding edge by building for myself, not for a market.
+
+There are plenty of people like me. We build tools the day the APIs ship. We hit the walls before the docs exist. We write the workarounds that become next quarter's feature announcements. The instinct to productize is strong, but the math rarely works. The window between "too early for anyone to care" and "too late because the platform shipped it natively" is vanishingly small in AI right now.
+
+## When to Actually Build a Product
+
+The right time to jump in and build is when you have a defensible moat or a perfect moment. That means one of a few things: you have domain expertise in an industry that will never adopt AI without someone like you walking them through it. You have proprietary data or relationships that cannot be replicated by a feature release. You are solving a coordination problem between multiple vendors that none of them are incentivized to solve. Or you are building at a layer of the stack where the platform owners are not competing.
+
+"I built the feature before they did" is not a moat. It is a signal that you understand the problem space, which is valuable, but not as a product. It is valuable as judgment. It is valuable as capability.
+
+## The Dark Forest
+
+The AI space is a dark forest. Every product you launch is a signal flare. If it works, it tells the platform owners exactly what to build next. If it goes viral, you are months away from being absorbed or outcompeted. If you pick a name too close to a trademark, you are weeks away from a legal notice.
+
+The safe move is not to hide. It is to stay in motion. Build utilities, not products. Accumulate capability, not customers. Use the tools harder than anyone else so that when the right moment does arrive, a moment with a real moat, real defensibility, a problem that Anthropic or OpenAI cannot solve with a point release, you are the person who has been living in the future long enough to see it clearly.
+
+I built CRONAI in 14 minutes on a Friday morning in February 2025. I rebuilt it as Maistro seven days later with model switching, MCP orchestration, and chained workflows. Thirteen months later, those same features are shipping across every major AI coding tool. I did not miss an opportunity. I spent those 13 months getting better at something more durable than any single product.
+
+The dark forest rewards the ones who keep moving.
