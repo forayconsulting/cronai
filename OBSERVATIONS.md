@@ -56,4 +56,4 @@ The safe move is not to hide. It is to stay in motion. Build utilities, not prod
 
 I built [CRONAI](https://github.com/forayconsulting/cronai) on a Friday morning in February 2025. I rebuilt it as [Maistro](https://github.com/forayconsulting/maistro) a week later. Thirteen months later, those same features are shipping across every major AI coding tool. I did not miss an opportunity. I spent those 13 months getting better at something more durable than any single product.
 
-The dark forest rewards the ones who keep moving.
+The dark forest rewards the ones who keep their heads down, keep moving, and, in the words of Captain Jack Sparrow... wait for the opportune moment.
